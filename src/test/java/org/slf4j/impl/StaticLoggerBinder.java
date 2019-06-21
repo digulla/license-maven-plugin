@@ -7,7 +7,7 @@ import org.slf4j.spi.LoggerFactoryBinder;
 public class StaticLoggerBinder implements LoggerFactoryBinder
 {
     private static StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-    
+
     public static StaticLoggerBinder getSingleton()
     {
         return SINGLETON;

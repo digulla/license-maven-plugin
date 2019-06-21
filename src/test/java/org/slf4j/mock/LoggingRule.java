@@ -22,7 +22,7 @@ public class LoggingRule extends TestWatcher
     protected void starting( Description description )
     {
         super.starting( description );
-        
+
         MockLoggerFactory.get().beforeTest();
     }
 
@@ -61,7 +61,7 @@ public class LoggingRule extends TestWatcher
             return loggerNames.contains( input.getLoggerName() );
         }
     }
-    
+
     private Set<String> toLoggerNames( Class<?>[] types )
     {
         Set<String> result = new HashSet<String>();

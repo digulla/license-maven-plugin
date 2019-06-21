@@ -16,44 +16,44 @@ public class MockLoggerFactory implements ILoggerFactory
 
     private final Map<String, MockLogger> loggers = new HashMap<>();
     private List<LoggingEvent> events = new ArrayList<LoggingEvent>();
-    
+
     public static MockLoggerFactory get()
     {
         return INSTANCE;
     }
-    
+
     public void beforeTest()
     {
         System.out.println( "Resetting logging..." );
         events.clear();
     }
-    
+
     public String dump( Predicate<LoggingEvent> filter )
     {
         StringBuilder buffer = new StringBuilder();
         String delim = "";
-        
+
         for ( LoggingEvent event : events )
         {
             if ( filter.apply( event ) )
             {
                 buffer.append( delim );
                 delim = "\n";
-                
+
                 append( buffer, event );
             }
         }
-        
+
         return buffer.toString();
     }
-    
+
     private void append( StringBuilder buffer, LoggingEvent event )
     {
         buffer
             .append( event.getLevel() )
             .append( ' ' )
             .append( event.getFormattedMessage() );
-        
+
         if ( event.getThrowable() != null )
         {
             buffer
@@ -81,11 +81,11 @@ public class MockLoggerFactory implements ILoggerFactory
     {
         return new MockLogger( name, this );
     }
-    
+
     public void addEvent( LoggingEvent event )
     {
         events.add( event );
-        
+
         StringBuilder buffer = new StringBuilder();
         append( buffer, event );
         System.out.println( buffer );

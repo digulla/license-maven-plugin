@@ -15,7 +15,7 @@ public class LicenseMojoUtilsTest
     private File deprecatedFile;
     private String url;
     private File basedir = new File( "" );
-    
+
     @Rule
     public LoggingRule logging = new LoggingRule( LicenseMojoUtils.class );
 

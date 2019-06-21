@@ -21,7 +21,7 @@ public class LoggingEvent
         this.t = t;
         this.formattedMessage = formatMessage( format, arguments );
     }
-    
+
     private String formatMessage( String format, Object[] arguments )
     {
         int start = 0;
@@ -61,7 +61,7 @@ public class LoggingEvent
         if( value.getClass().isArray() )
         {
             Class<?> componentType = value.getClass().getComponentType();
-            
+
             if ( componentType.isAssignableFrom( boolean.class ) )
             {
                 buffer.append( Arrays.toString( (boolean[]) value ) );
@@ -124,7 +124,7 @@ public class LoggingEvent
     {
         return formattedMessage;
     }
-    
+
     public Throwable getThrowable()
     {
         return t;

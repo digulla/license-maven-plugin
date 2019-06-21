@@ -393,7 +393,7 @@ public class MockLogger implements  Logger
             t = (Throwable) lastArgument;
             arguments = Arrays.copyOf( arguments, arguments.length - 1 );
         }
-        
+
         LoggingEvent event = new LoggingEvent( name, level, marker, t, format, arguments );
         appender.addEvent( event );
     }
