@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
-import org.codehaus.mojo.license.logback.RedirectLogger;
+import org.junit.Rule;
 import org.junit.Test;
-
-import ch.qos.logback.classic.Level;
+import org.slf4j.event.Level;
+import org.slf4j.mock.LoggingRule;
 
 public class LicenseMojoUtilsTest
 {
@@ -15,6 +15,9 @@ public class LicenseMojoUtilsTest
     private File deprecatedFile;
     private String url;
     private File basedir = new File( "" );
+    
+    @Rule
+    public LoggingRule logging = new LoggingRule( LicenseMojoUtils.class );
 
     @Test
     public void testIsValidNull()
@@ -108,24 +111,14 @@ public class LicenseMojoUtilsTest
     @Test
     public void testPrepareThirdPartyOverrideClasspathResource()
     {
-        RedirectLogger rl = new RedirectLogger( LicenseMojoUtils.class );
-        try
-        {
-            rl.install();
-
-            url = "classpath:overrides.properties";
-            String actual = LicenseMojoUtils.prepareThirdPartyOverrideUrl( resolvedUrl, deprecatedFile, url, basedir );
-            assertEquals( url, actual );
-            assertTrue( LicenseMojoUtils.isValid(actual) );
-        }
-        finally
-        {
-            rl.deinstall();
-        }
+        url = "classpath:overrides.properties";
+        String actual = LicenseMojoUtils.prepareThirdPartyOverrideUrl( resolvedUrl, deprecatedFile, url, basedir );
+        assertEquals( url, actual );
+        assertTrue( LicenseMojoUtils.isValid(actual) );
 
         assertEquals(
                 "DEBUG Loading overrides from URL classpath:overrides.properties\n",
-                rl.dump( Level.DEBUG ) );
+                logging.dump( Level.DEBUG ) );
     }
 
     @Test
@@ -158,21 +151,9 @@ public class LicenseMojoUtilsTest
     /** Allow to validate several test results in one assert */
     private String runTestAndJoinResults()
     {
-        RedirectLogger rl = new RedirectLogger( LicenseMojoUtils.class );
-
-        String result;
-        try
-        {
-            rl.install();
-
-            result = LicenseMojoUtils.prepareThirdPartyOverrideUrl( resolvedUrl, deprecatedFile, url, basedir );
-        }
-        finally
-        {
-            rl.deinstall();
-        }
+        String result = LicenseMojoUtils.prepareThirdPartyOverrideUrl( resolvedUrl, deprecatedFile, url, basedir );
         File defaultOverride = new File ( LicenseMojoUtils.DEFAULT_OVERRIDE_THIRD_PARTY );
-        String dump = rl.dump( Level.DEBUG )
+        String dump = logging.dump( Level.DEBUG )
                 .replace( defaultOverride.getAbsolutePath(), ".../" + defaultOverride.getName() );
 
         if ( deprecatedFile != null )
