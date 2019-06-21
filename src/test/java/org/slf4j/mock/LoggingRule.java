@@ -53,7 +53,7 @@ public class LoggingRule extends TestWatcher
         @Override
         public boolean apply( LoggingEvent input )
         {
-            if ( level.compareTo( input.getLevel() ) > 0 )
+            if ( level.compareTo( input.getLevel() ) < 0 )
             {
                 return false;
             }
